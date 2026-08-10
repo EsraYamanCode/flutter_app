@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../../core/validators/user_validator.dart';
+import '../../data/models/user_model.dart';
+import '../users/user_provider.dart';
 
 class UserAddPage extends StatefulWidget {
   const UserAddPage({super.key});
@@ -29,12 +32,35 @@ class _UserAddPageState extends State<UserAddPage> {
     if (!_formKey.currentState!.validate()) {
       return;
     }
+    final username = _usernameController.text.trim();
+    final userTitle = _userTitleController.text.trim();
+    final password = _passwordController.text;
+
+    final provider = context.read<UserProvider>();
+
+    if (!provider.isUsernameUnique(username)) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('This username already taken.')),
+      );
+      return;
+    }
+
+    final user = UserModel(
+      id: DateTime.now().millisecondsSinceEpoch.toString(),
+      username: username,
+      userTitle: userTitle,
+      password: password,
+    );
+    provider.addUser(user);
+    Navigator.pop(context);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('ADD USER')), // + butonunda Navigator.push yaptığımız için Flutter yeni sayfayı navigation stack'e ekledi;
+      appBar: AppBar(
+        title: const Text('ADD USER'),
+      ), // + butonunda Navigator.push yaptığımız için Flutter yeni sayfayı navigation stack'e ekledi;
       // appBar'da bu sayfanın geri dönülebilir olduğunu anlayıp geri okunu otomatik olarak gösterdi ve geri yaptığımızda girdiğimiz sayfadan çıkıp stack'ten çıkarıyor.
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
@@ -43,7 +69,6 @@ class _UserAddPageState extends State<UserAddPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              
               TextFormField(
                 controller: _usernameController,
                 decoration: const InputDecoration(
