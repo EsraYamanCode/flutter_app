@@ -1,7 +1,7 @@
 import '../models/user_model.dart';
 
-class SeedData {
-  static List<UserModel> intialUsers = [
+class SeedData { //başlangıç verisi 
+  static List<UserModel> initialUsers = [
     UserModel(
       id: "1",
       username: "admin",

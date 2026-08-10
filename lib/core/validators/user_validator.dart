@@ -9,7 +9,7 @@ class UserValidator {
       return 'Username cannot contain spaces';
     }
     final RegExp usernameRegExp = RegExp(
-      r'^[a-zA-Z0-9_]+$',
+      r'^[a-zA-Z0-9]+$',
     ); //RegExp değişkenimiz sadece bu değerleri alabilir.
     if (!usernameRegExp.hasMatch(value)) {
       return 'Username can only contain letters, numbers, and underscores';

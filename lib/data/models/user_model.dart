@@ -13,7 +13,7 @@ class UserModel {
     this.isDeleted = false,
   });
 
-  UserModel copyWith({
+  UserModel copyWith({ //user.copyWith(userTitle: "Yeni Başlık"); orijinal user değişmez, bunun yerine alanı güncellenmiş yeni bir UserModel döner.
     String? id,
     String? username,
     String? userTitle,
