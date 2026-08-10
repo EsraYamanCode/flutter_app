@@ -1,7 +1,58 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_deneme/features/users/admin_user_page.dart';
+import '../../data/repositories/user_repository.dart';
+import '../../data/models/user_model.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
+
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  final _usernameController = TextEditingController();
+  final _passwordController = TextEditingController();
+  final UserRepository _userRepository = UserRepository();
+  bool _isLoading = false;
+
+  @override
+  void dispose() {
+    _usernameController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
+
+  void _tryLogin() {
+    final username = _usernameController.text.trim();
+    final password = _passwordController.text;
+
+    if (username.isEmpty || password.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Please enter username and password.')),
+      );
+      return;
+    }
+
+    setState(() => _isLoading = true);
+
+    final user = _userRepository.login(username, password);
+
+    setState(() => _isLoading = false);
+
+    if (user != null) {
+      // Başarılı girişte bizi admin_user_page sayfasına yönlendirecek.
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (_) => const AdminUserManagement()),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Failed: user didnt find or passwaord is wrong.'),
+        ),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,21 +76,41 @@ class LoginPage extends StatelessWidget {
           children: [
             const SizedBox(height: 100),
             TextField(
-              decoration: InputDecoration(
+              //controller koy
+              controller: _usernameController,
+              decoration: const InputDecoration(
                 labelText: "Username",
                 border: OutlineInputBorder(),
               ),
             ),
             const SizedBox(height: 20),
+
             TextField(
-              decoration: InputDecoration(
+              //kontroller koy
+              controller: _passwordController,
+              decoration: const InputDecoration(
                 labelText: "Password",
                 border: OutlineInputBorder(),
               ),
               obscureText: true,
             ),
             const SizedBox(height: 40),
-            ElevatedButton(onPressed: () {}, child: const Text("Login")),
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: _isLoading ? null : _tryLogin,
+                child: _isLoading
+                    ? const SizedBox(
+                        height: 16,
+                        width: 16,
+                        child: CircularProgressIndicator(
+                          strokeWidth: 2,
+                          color: Colors.white,
+                        ),
+                      )
+                    : const Text("Login"),
+              ),
+            ),
           ],
         ),
       ),
