@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_deneme/features/dashboard/dashboard_screen.dart';
 import 'package:flutter_deneme/features/users/admin_user_page.dart';
 import '../../data/repositories/user_repository.dart';
 import '../../data/models/user_model.dart';
@@ -43,7 +44,7 @@ class _LoginPageState extends State<LoginPage> {
     if (user != null) {
       // Başarılı girişte bizi admin_user_page sayfasına yönlendirecek.
       Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (_) => const AdminUserManagement()),
+        MaterialPageRoute(builder: (_) => const DashboardScreen()),
       );
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
