@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_deneme/features/categories/categories_page.dart';
+import 'package:flutter_deneme/features/products/products_page.dart';
+import 'package:flutter_deneme/features/users/admin_user_page.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
@@ -8,19 +11,27 @@ class DashboardScreen extends StatefulWidget {
 }
 
 class _DashboardScreenState extends State<DashboardScreen> {
-  int selectedIndex = 0;
-
+  int currentIndex = 0;
+  final pages = [
+    AdminUserManagement(),
+    CategoriesManagement(),
+    ProductsManagement(),
+  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("😺  D&R Admin"),
-
-        // appBar kısmı logo şeklinde olsun
+        title: const Text('🪼​'),
+        centerTitle: true,
       ),
-      body: Center(child: Text("dashboard")),
+      body: pages[currentIndex],
       bottomNavigationBar: NavigationBar(
-        selectedIndex: selectedIndex,
+        selectedIndex: currentIndex,
+        onDestinationSelected: (index) {
+          setState(() {
+            currentIndex = index;
+          });
+        },
         destinations: const [
           NavigationDestination(icon: Icon(Icons.people), label: "Users"),
           NavigationDestination(
