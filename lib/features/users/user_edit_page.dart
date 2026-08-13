@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_deneme/data/models/user_model.dart';
 import 'package:flutter_deneme/features/users/user_provider.dart';
+import '../../core/validators/user_validator.dart';
 
 class UserEditPage extends StatefulWidget {
   final UserModel user; //gelecek olan user'ın tipi UserModel.
@@ -31,9 +32,18 @@ class _UserEditPageState extends State<UserEditPage> {
       _usernameController.text.trim(),
       currentUserId: widget.user.id,
     );
+
     if (!isUnique) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('This username already taken.')),
+      );
+      return;
+    }
+
+    if (_passwordController.text.trim().isNotEmpty &&
+        _passwordController.text.trim().length < 6) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('password at least 6 character.')),
       );
       return;
     }
@@ -42,10 +52,8 @@ class _UserEditPageState extends State<UserEditPage> {
       username: _usernameController.text.trim(),
       userTitle: _userTitleController.text.trim(),
       password: _passwordController.text.trim().isEmpty
-          ? widget
-                .user
-                .password //doğruysa
-          : _passwordController.text, //yanlışsa
+          ? widget.user.password
+          : _passwordController.text.trim(),
     );
     provider.updateUser(updatedUser);
     Navigator.pop(context, true);
@@ -72,11 +80,13 @@ class _UserEditPageState extends State<UserEditPage> {
               TextFormField(
                 controller: _usernameController,
                 decoration: const InputDecoration(border: OutlineInputBorder()),
+                validator: UserValidator.validateUsername,
               ),
               const SizedBox(height: 16),
               TextFormField(
                 controller: _userTitleController,
                 decoration: const InputDecoration(border: OutlineInputBorder()),
+                validator: UserValidator.validateUserTitle,
               ),
               const SizedBox(height: 16),
               TextFormField(
