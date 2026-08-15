@@ -3,24 +3,24 @@ import '../models/category_model.dart';
 class CategorySeedData {
   static List<CategoryModel> initialCategories = [
     CategoryModel(
-      CategoryId: "cat-1",
-      CategoryTitle: "Kitap",
-      CategoryDescription: "Roman, bilim kurgu, kişisel gelişim kitapları",
-      Status: true,
+      categoryId: "cat-1",
+      categoryTitle: "Kitap",
+      categoryDescription: "Roman, bilim kurgu, kişisel gelişim kitapları",
+      status: true,
       isDeleted: false,
     ),
     CategoryModel(
-      CategoryId: "cat-2",
-      CategoryTitle: "Kırtasiye",
-      CategoryDescription: "Defter, kalem ve ofis gereçleri",
-      Status: true,
+      categoryId: "cat-2",
+      categoryTitle: "Kırtasiye",
+      categoryDescription: "Defter, kalem ve ofis gereçleri",
+      status: true,
       isDeleted: false,
     ),
     CategoryModel(
-      CategoryId: "cat-2",
-      CategoryTitle: "Elektronik",
-      CategoryDescription: "E-kitap okuyucu, kulaklık ve aksesuarlar",
-      Status: true,
+      categoryId: "cat-2",
+      categoryTitle: "Elektronik",
+      categoryDescription: "E-kitap okuyucu, kulaklık ve aksesuarlar",
+      status: true,
       isDeleted: false,
     ),
   ];

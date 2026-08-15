@@ -14,8 +14,8 @@ class CategoryRepository extends ChangeNotifier {
     return _categories.any(
       (c) =>
           !c.isDeleted &&
-          c.CategoryTitle.trim().toLowerCase() == title.trim().toLowerCase() &&
-          c.CategoryId != excludeId,
+          c.categoryTitle.trim().toLowerCase() == title.trim().toLowerCase() &&
+          c.categoryId != excludeId,
     );
   }
 
@@ -26,7 +26,7 @@ class CategoryRepository extends ChangeNotifier {
 
   void updateCategory(CategoryModel updatedCategory) {
     final index = _categories.indexWhere(
-      (c) => c.CategoryId == updatedCategory.CategoryId,
+      (c) => c.categoryId == updatedCategory.categoryId,
     );
     if (index != -1) {
       _categories[index] = updatedCategory;
@@ -35,7 +35,7 @@ class CategoryRepository extends ChangeNotifier {
   }
 
   void deleteCategory(String id) {
-    final index = _categories.indexWhere((c) => c.CategoryId == id);
+    final index = _categories.indexWhere((c) => c.categoryId == id);
     if (index != -1) {
       _categories[index] = _categories[index].copyWith(isDeleted: true);
       notifyListeners();

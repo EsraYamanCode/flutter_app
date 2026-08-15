@@ -27,7 +27,8 @@ class CategoryManagement extends StatelessWidget {
                       return Card(
                         child: ListTile(
                           leading: CircleAvatar(child: Text("${index + 1}")),
-                          title: Text(category.CategoryTitle),
+                          title: Text(category.categoryTitle),
+                          subtitle: Text(category.categoryDescription),
                           trailing: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [

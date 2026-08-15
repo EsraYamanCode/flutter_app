@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_deneme/features/categories/categories_page.dart';
+import 'package:flutter_deneme/features/categories/category_page.dart';
 import 'package:flutter_deneme/features/products/products_page.dart';
 import 'package:flutter_deneme/features/users/admin_user_page.dart';
 
@@ -14,7 +14,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   int currentIndex = 0;
   final pages = [
     AdminUserManagement(),
-    CategoriesManagement(),
+    CategoryManagement(),
     ProductsManagement(),
   ];
   @override
