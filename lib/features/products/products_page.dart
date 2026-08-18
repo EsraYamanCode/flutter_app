@@ -1,46 +1,68 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_deneme/features/products/product_add_page.dart';
+import 'package:flutter_deneme/features/products/product_provider.dart';
+import 'package:provider/provider.dart';
 
-class ProductsManagement extends StatefulWidget {
-  const ProductsManagement({super.key});
-
-  @override
-  State<ProductsManagement> createState() => _ProductsManagementState();
-}
-
-class _ProductsManagementState extends State<ProductsManagement> {
-  final List<String> products = ["Product1", "Product2", "Product3"];
+class ProductManagement extends StatelessWidget {
+  const ProductManagement({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Center(child: Text("Products Management"))),
+      appBar: AppBar(title: const Center(child: Text("Product Management"))),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
             Expanded(
-              child: ListView.builder(
-                itemCount: products.length,
-                itemBuilder: (context, index) => Card(
-                  child: ListTile(    //listtile widget ı kullanarak her bir ürünleri listeledik ve bu widget ın içinde leading, title ve trailing özelliklerini kullandık. 
-                    leading: CircleAvatar(child: Text("${index + 1}")), //leading kısmında ürün sırasını göstermek için CircleAvatar kullandık.
-                    title: Text(products[index]), //title kısmında ürün adını gösterdik.
-                    trailing: Row(  //trailing kısmında ise düzenleme ve silme butonlarını ekledik. trailing kısmında row widgetı kullanarak sağ tarafa ekledik.
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        IconButton(
-                          icon: const Icon(Icons.edit, color: Colors.blue),
-                          onPressed: () {},
+              child: Consumer<ProductProvider>(
+                builder: (context, provider, child) {
+                  final products = provider.products;
+
+                  return ListView.builder(
+                    itemCount: products.length,
+                    itemBuilder: (context, index) {
+                      final product = products[index];
+
+                      return Card(
+                        child: ListTile(
+                          leading: CircleAvatar(child: Text("${index + 1}")),
+                          title: Text(product.productTitle),
+                          trailing: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              IconButton(
+                                icon: const Icon(
+                                  Icons.edit,
+                                  color: Colors.blue,
+                                ),
+                                onPressed: () {},
+                              ),
+                              IconButton(
+                                icon: const Icon(
+                                  Icons.delete,
+                                  color: Colors.red,
+                                ),
+                                onPressed: () =>
+                                    provider.deleteProduct(product.productId),
+                              ),
+                            ],
+                          ),
                         ),
-                        IconButton(
-                          icon: const Icon(Icons.delete, color: Colors.red),
-                          onPressed: () {},
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
+                      );
+                    },
+                  );
+                },
               ),
+            ),
+            IconButton(
+              icon: const Icon(Icons.add, color: Colors.deepPurple),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ProductAddPage()),
+                );
+              },
             ),
           ],
         ),
