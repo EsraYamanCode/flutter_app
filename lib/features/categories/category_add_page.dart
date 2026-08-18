@@ -80,7 +80,6 @@ class _CategoryAddPage extends State<CategoryAddPage> {
                   labelText: 'CategoryDescription',
                   border: OutlineInputBorder(),
                 ),
-                validator: CategoryValidator.validateCategoryTitle,
               ),
               const SizedBox(height: 16),
               CheckboxListTile(
