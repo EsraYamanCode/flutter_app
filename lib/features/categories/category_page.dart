@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_deneme/features/categories/category_edit_page.dart';
 import 'package:flutter_deneme/features/categories/category_provider.dart';
 import 'package:provider/provider.dart';
 import 'category_add_page.dart';
@@ -37,14 +38,33 @@ class CategoryManagement extends StatelessWidget {
                                   Icons.edit,
                                   color: Colors.blue,
                                 ),
-                                onPressed: () {},
+                                onPressed: () async {
+                                  final result = await Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          CategoryEditPage(category: category),
+                                    ),
+                                  );
+                                  if (result == true) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                        content: Text(
+                                          'Kategori başarıyla güncellendi.',
+                                        ),
+                                      ),
+                                    );
+                                  }
+                                },
                               ),
                               IconButton(
                                 icon: const Icon(
                                   Icons.delete,
                                   color: Colors.red,
                                 ),
-                                onPressed: () {},
+                                onPressed: () => provider.deleteCategory(
+                                  category.categoryId,
+                                ),
                               ),
                             ],
                           ),
