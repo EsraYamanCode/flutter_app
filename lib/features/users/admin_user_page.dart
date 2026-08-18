@@ -63,7 +63,32 @@ class AdminUserManagement extends StatelessWidget {
                                   Icons.delete,
                                   color: Colors.red,
                                 ),
-                                onPressed: () => provider.deleteUser(user.id),
+                                onPressed: () {
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return AlertDialog(
+                                        content: Text(
+                                          'Are you sure delete this user?',
+                                        ),
+                                        actions: [
+                                          TextButton(
+                                            onPressed: () {
+                                              provider.deleteUser(user.id);
+                                              Navigator.pop(context);
+                                            },
+                                            child: const Text('yes'),
+                                          ),
+                                          TextButton(
+                                            onPressed: () =>
+                                                Navigator.pop(context),
+                                            child: const Text('no'),
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  );
+                                },
                               ),
                             ],
                           ),

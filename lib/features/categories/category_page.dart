@@ -62,9 +62,34 @@ class CategoryManagement extends StatelessWidget {
                                   Icons.delete,
                                   color: Colors.red,
                                 ),
-                                onPressed: () => provider.deleteCategory(
-                                  category.categoryId,
-                                ),
+                                onPressed: () {
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return AlertDialog(
+                                        content: Text(
+                                          'Are you sure delete this category',
+                                        ),
+                                        actions: [
+                                          TextButton(
+                                            onPressed: () {
+                                              provider.deleteCategory(
+                                                category.categoryId,
+                                              );
+                                              Navigator.pop(context);
+                                            },
+                                            child: const Text('yes'),
+                                          ),
+                                          TextButton(
+                                            onPressed: () =>
+                                                Navigator.pop(context),
+                                            child: const Text('no'),
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  );
+                                },
                               ),
                             ],
                           ),

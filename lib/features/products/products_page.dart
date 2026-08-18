@@ -28,6 +28,8 @@ class ProductManagement extends StatelessWidget {
                         child: ListTile(
                           leading: CircleAvatar(child: Text("${index + 1}")),
                           title: Text(product.productTitle),
+                          subtitle: Text(product.barcode),
+
                           trailing: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
@@ -36,15 +38,59 @@ class ProductManagement extends StatelessWidget {
                                   Icons.edit,
                                   color: Colors.blue,
                                 ),
-                                onPressed: () {},
+                                onPressed: () {
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return AlertDialog(
+                                        title: const Text('Bilgilendirme'),
+                                        content: const Text(
+                                          'ürün düzenleme özelliği bu aşamada zorunlu kapsam dışındadır.',
+                                        ),
+                                        actions: [
+                                          TextButton(
+                                            onPressed: () =>
+                                                Navigator.pop(context),
+                                            child: const Text('tamam'),
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  );
+                                },
                               ),
                               IconButton(
                                 icon: const Icon(
                                   Icons.delete,
                                   color: Colors.red,
                                 ),
-                                onPressed: () =>
-                                    provider.deleteProduct(product.productId),
+                                onPressed: () {
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return AlertDialog(
+                                        content: const Text(
+                                          'Are you sure delete this product?',
+                                        ),
+                                        actions: [
+                                          TextButton(
+                                            onPressed: () {
+                                              provider.deleteProduct(product.productId,);
+                                              Navigator.pop(context);
+                                            },
+                                            child: const Text('yes'),
+                                          ),
+                                          TextButton(
+                                            
+                                            onPressed: () =>
+                                                Navigator.pop(context),
+                                            child: const Text('no'),
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  );
+                                },
                               ),
                             ],
                           ),
