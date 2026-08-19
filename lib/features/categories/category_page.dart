@@ -26,8 +26,12 @@ class CategoryManagement extends StatelessWidget {
                       final category = categories[index];
 
                       return Card(
+                        color: Color.fromARGB(255, 215, 207, 191),
                         child: ListTile(
-                          leading: CircleAvatar(child: Text("${index + 1}")),
+                          leading: CircleAvatar(
+                            child: Text("${index + 1}"),
+                            backgroundColor: Color.fromARGB(255, 193, 169, 139),
+                          ),
                           title: Text(category.categoryTitle),
                           subtitle: Text(category.categoryDescription),
                           trailing: Row(
@@ -36,7 +40,7 @@ class CategoryManagement extends StatelessWidget {
                               IconButton(
                                 icon: const Icon(
                                   Icons.edit,
-                                  color: Colors.blue,
+                                  color: Color.fromARGB(255, 135, 114, 89),
                                 ),
                                 onPressed: () async {
                                   final result = await Navigator.push(
@@ -60,7 +64,7 @@ class CategoryManagement extends StatelessWidget {
                               IconButton(
                                 icon: const Icon(
                                   Icons.delete,
-                                  color: Colors.red,
+                                  color: Color.fromARGB(255, 135, 114, 89),
                                 ),
                                 onPressed: () {
                                   showDialog(

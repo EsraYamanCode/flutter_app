@@ -15,7 +15,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   final pages = [
     AdminUserManagement(),
     CategoryManagement(),
-    ProductsManagement(),
+    ProductManagement(),
   ];
   @override
   Widget build(BuildContext context) {
@@ -23,9 +23,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
       appBar: AppBar(
         title: const Text('🪼​'),
         centerTitle: true,
+        backgroundColor: Color.fromARGB(255, 30, 57, 75),
       ),
       body: pages[currentIndex],
       bottomNavigationBar: NavigationBar(
+        backgroundColor: Color.fromARGB(255, 30, 57, 75),
+        indicatorColor: const Color.fromARGB(255, 108, 94, 79),
         selectedIndex: currentIndex,
         onDestinationSelected: (index) {
           setState(() {
@@ -33,13 +36,22 @@ class _DashboardScreenState extends State<DashboardScreen> {
           });
         },
         destinations: const [
-          NavigationDestination(icon: Icon(Icons.people), label: "Users"),
           NavigationDestination(
-            icon: Icon(Icons.category),
+            icon: Icon(Icons.people, color: Color.fromARGB(255, 215, 207, 191)),
+            label: "Users",
+          ),
+          NavigationDestination(
+            icon: Icon(
+              Icons.category,
+              color: Color.fromARGB(255, 215, 207, 191),
+            ),
             label: "Categories",
           ),
           NavigationDestination(
-            icon: Icon(Icons.shopping_bag),
+            icon: Icon(
+              Icons.shopping_bag,
+              color: Color.fromARGB(255, 215, 207, 191),
+            ),
             label: "Products",
           ),
         ],

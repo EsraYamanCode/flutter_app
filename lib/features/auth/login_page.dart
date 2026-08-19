@@ -61,7 +61,7 @@ class _LoginPageState extends State<LoginPage> {
       appBar: AppBar(
         flexibleSpace: Container(
           decoration: const BoxDecoration(
-            color: Color.fromARGB(255, 10, 21, 104),
+            color: Color.fromARGB(255, 30, 57, 75),
           ),
         ),
         title: const Center(
@@ -82,6 +82,7 @@ class _LoginPageState extends State<LoginPage> {
               decoration: const InputDecoration(
                 labelText: "Username",
                 border: OutlineInputBorder(),
+                hoverColor: Color.fromARGB(255, 215, 207, 191),
               ),
             ),
             const SizedBox(height: 20),

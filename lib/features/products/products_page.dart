@@ -25,8 +25,12 @@ class ProductManagement extends StatelessWidget {
                       final product = products[index];
 
                       return Card(
+                        color: Color.fromARGB(255, 215, 207, 191),
                         child: ListTile(
-                          leading: CircleAvatar(child: Text("${index + 1}")),
+                          leading: CircleAvatar(
+                            child: Text("${index + 1}"),
+                            backgroundColor: Color.fromARGB(255, 193, 169, 139),
+                          ),
                           title: Text(product.productTitle),
                           subtitle: Text(product.barcode),
 
@@ -36,7 +40,7 @@ class ProductManagement extends StatelessWidget {
                               IconButton(
                                 icon: const Icon(
                                   Icons.edit,
-                                  color: Colors.blue,
+                                  color: Color.fromARGB(255, 135, 114, 89),
                                 ),
                                 onPressed: () {
                                   showDialog(
@@ -62,7 +66,7 @@ class ProductManagement extends StatelessWidget {
                               IconButton(
                                 icon: const Icon(
                                   Icons.delete,
-                                  color: Colors.red,
+                                  color: Color.fromARGB(255, 135, 114, 89),
                                 ),
                                 onPressed: () {
                                   showDialog(
@@ -75,13 +79,14 @@ class ProductManagement extends StatelessWidget {
                                         actions: [
                                           TextButton(
                                             onPressed: () {
-                                              provider.deleteProduct(product.productId,);
+                                              provider.deleteProduct(
+                                                product.productId,
+                                              );
                                               Navigator.pop(context);
                                             },
                                             child: const Text('yes'),
                                           ),
                                           TextButton(
-                                            
                                             onPressed: () =>
                                                 Navigator.pop(context),
                                             child: const Text('no'),
