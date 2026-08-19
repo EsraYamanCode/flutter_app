@@ -90,6 +90,8 @@ class _ProductAddPage extends State<ProductAddPage> {
 
               DropdownButtonFormField<String?>(
                 value: _selectedCategoryId,
+                isExpanded: true,
+                menuMaxHeight: 200,
                 decoration: const InputDecoration(
                   labelText: 'Category (Opsiyonel)',
                   border: OutlineInputBorder(),
