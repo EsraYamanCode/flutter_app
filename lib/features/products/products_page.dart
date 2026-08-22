@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_deneme/data/models/category_model.dart';
+import 'package:flutter_deneme/features/categories/category_provider.dart';
 import 'package:flutter_deneme/features/products/product_add_page.dart';
 import 'package:flutter_deneme/features/products/product_provider.dart';
 import 'package:provider/provider.dart';
@@ -6,8 +8,33 @@ import 'package:provider/provider.dart';
 class ProductManagement extends StatelessWidget {
   const ProductManagement({super.key});
 
+  CategoryModel? _findCategory(
+    String? productCategoryId,
+    List<dynamic> categories,
+  ) {
+    if (productCategoryId == null || productCategoryId.isEmpty) return null;
+    for (var category in categories) {
+      if (category.categoryId == productCategoryId && !category.isDeleted) {
+        return category;
+      }
+    }
+    return null;
+  }
+
   @override
   Widget build(BuildContext context) {
+    final categoryList = context.watch<CategoryProvider>().categories;
+    List<DropdownMenuItem<String?>> dropdownItems = [];
+    for (var cat in categoryList) {
+      if (!cat.isDeleted) {
+        dropdownItems.add(
+          DropdownMenuItem<String?>(
+            value: cat.categoryId,
+            child: Text(cat.categoryTitle),
+          ),
+        );
+      }
+    }
     return Scaffold(
       appBar: AppBar(title: const Center(child: Text("Product Management"))),
       body: Padding(
@@ -15,25 +42,57 @@ class ProductManagement extends StatelessWidget {
         child: Column(
           children: [
             Expanded(
-              child: Consumer<ProductProvider>(
-                builder: (context, provider, child) {
-                  final products = provider.products;
-
+              child: Consumer2<ProductProvider, CategoryProvider>(
+                builder: (context, productProvider, categoryProvider, child) {
                   return ListView.builder(
-                    itemCount: products.length,
+                    padding: EdgeInsets.all(16),
+                    itemCount: productProvider.products.length,
                     itemBuilder: (context, index) {
-                      final product = products[index];
+                      final product = productProvider.products[index];
+                      final matchedCategory = _findCategory(
+                        product.productCategoryId,
+                        categoryProvider.categories,
+                      );
 
                       return Card(
                         color: Color.fromARGB(255, 215, 207, 191),
+                        margin: const EdgeInsets.only(bottom: 6),
                         child: ListTile(
                           leading: CircleAvatar(
                             child: Text("${index + 1}"),
                             backgroundColor: Color.fromARGB(255, 193, 169, 139),
                           ),
                           title: Text(product.productTitle),
-                          subtitle: Text(product.barcode),
-
+                          subtitle: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              matchedCategory != null
+                                  ? Text(matchedCategory.categoryTitle)
+                                  : Row(
+                                      children: [
+                                        const Text(
+                                          'kategori yok',
+                                          style: TextStyle(color: Colors.red),
+                                        ),
+                                        const SizedBox(width: 10),
+                                        DropdownButton<String?>(
+                                          hint: const Text('kategori ata'),
+                                          items: dropdownItems,
+                                          onChanged: (selectedId) {
+                                            if (selectedId != null) {
+                                              productProvider.updateProduct(
+                                                product.copyWith(
+                                                  productCategoryId: selectedId,
+                                                ),
+                                              );
+                                            }
+                                          },
+                                        ),
+                                      ],
+                                    ),
+                              Text(product.barcode),
+                            ],
+                          ),
                           trailing: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
@@ -79,7 +138,7 @@ class ProductManagement extends StatelessWidget {
                                         actions: [
                                           TextButton(
                                             onPressed: () {
-                                              provider.deleteProduct(
+                                              productProvider.deleteProduct(
                                                 product.productId,
                                               );
                                               Navigator.pop(context);
