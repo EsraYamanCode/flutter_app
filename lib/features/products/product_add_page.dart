@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_deneme/data/models/product_model.dart';
-import 'package:flutter_deneme/data/seed/category_seed_data.dart';
 import 'package:flutter_deneme/features/categories/category_provider.dart';
 import 'package:flutter_deneme/features/products/product_provider.dart';
 import 'package:provider/provider.dart';
@@ -39,6 +38,8 @@ class _ProductAddPage extends State<ProductAddPage> {
       productId: DateTime.now().millisecondsSinceEpoch.toString(),
       productTitle: productTitle,
       barcode: barcode,
+      productStatus: _status,
+      productCategoryId: _selectedCategoryId,
     );
 
     provider.addProduct(product);
@@ -90,16 +91,11 @@ class _ProductAddPage extends State<ProductAddPage> {
 
               DropdownButtonFormField<String?>(
                 value: _selectedCategoryId,
-                isExpanded: true,
-                menuMaxHeight: 200,
-                decoration: const InputDecoration(
-                  labelText: 'Category (Opsiyonel)',
-                  border: OutlineInputBorder(),
-                ),
+                decoration: const InputDecoration(border: OutlineInputBorder()),
                 items: dropdownItems,
-                onChanged: (value) {
+                onChanged: (selectedId) {
                   setState(() {
-                    _selectedCategoryId = value;
+                    _selectedCategoryId = selectedId;
                   });
                 },
               ),
