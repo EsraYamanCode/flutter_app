@@ -27,4 +27,8 @@ class UserProvider extends ChangeNotifier {
     _repository.deleteUser(id);
     notifyListeners();
   }
+
+  UserModel? login(String username, String password) {
+    return _repository.login(username, password);
+  }
 }
