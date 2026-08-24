@@ -5,7 +5,7 @@ class ProductModel {
   final String barcode;
   bool productStatus;
   bool isDeleted;
-
+  
   ProductModel({
     required this.productId,
     required this.productTitle,

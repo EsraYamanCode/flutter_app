@@ -7,6 +7,7 @@ import 'package:flutter_deneme/features/users/user_provider.dart';
 import 'package:provider/provider.dart';
 import 'features/auth/login_page.dart';
 import 'package:flutter/material.dart';
+// import 'l10n/app_localizations.dart';
 
 void main() {
   runApp(
@@ -16,8 +17,12 @@ void main() {
         Provider<CategoryRepository>(create: (_) => CategoryRepository()),
         Provider<ProductRepository>(create: (_) => ProductRepository()),
         ChangeNotifierProvider(create: (_) => UserProvider(UserRepository())),
-        ChangeNotifierProvider(create: (_) => CategoryProvider(CategoryRepository())),
-        ChangeNotifierProvider(create: (_) => ProductProvider(ProductRepository())),
+        ChangeNotifierProvider(
+          create: (_) => CategoryProvider(CategoryRepository()),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => ProductProvider(ProductRepository()),
+        ),
       ],
       child: const MyApp(),
     ),
@@ -29,6 +34,11 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(debugShowCheckedModeBanner: false, home: LoginPage());
+    return MaterialApp(
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
+      debugShowCheckedModeBanner: false,
+      home: LoginPage(),
+    );
   }
 }
