@@ -12,7 +12,7 @@ class UserValidator {
       r'^[a-zA-Z0-9]+$',
     ); //RegExp değişkenimiz sadece bu değerleri alabilir.
     if (!usernameRegExp.hasMatch(value)) {
-      return 'Username can only contain letters, numbers, and underscores';
+      return 'Username can only contain letters and numbers';
     }
     return null;
   }
@@ -24,12 +24,8 @@ class UserValidator {
     return null;
   }
 
-  static String? validatePassword(String? value, {bool isEditing = false}) {
-    if (isEditing && (value == null || value.isEmpty)) {
-      //şifre düzenlenirken boş bırakılırsa;
-      return 'Password cannot be empty';
-    }
-    if (value == null || value.isEmpty) {
+  static String? validatePassword(String? value) {
+    if (value == null || value.trim().isEmpty) {
       //şifre boş olursa;
       return 'Password cannot be empty';
     }
