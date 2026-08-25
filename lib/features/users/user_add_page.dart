@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import '../../core/validators/user_validator.dart';
 import '../../data/models/user_model.dart';
 import '../users/user_provider.dart';
+import '../../core/localization/app_strings.dart';
 
 class UserAddPage extends StatefulWidget {
   const UserAddPage({super.key});
@@ -59,7 +60,7 @@ class _UserAddPageState extends State<UserAddPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('ADD USER'),
+        title: Text(AppStrings.tr(context, 'addUser')),
       ), // + butonunda Navigator.push yaptığımız için Flutter yeni sayfayı navigation stack'e ekledi;
       // appBar'da bu sayfanın geri dönülebilir olduğunu anlayıp geri okunu otomatik olarak gösterdi ve geri yaptığımızda girdiğimiz sayfadan çıkıp stack'ten çıkarıyor.
       body: SingleChildScrollView(
@@ -71,9 +72,8 @@ class _UserAddPageState extends State<UserAddPage> {
             children: [
               TextFormField(
                 controller: _usernameController,
-                decoration: const InputDecoration(
-                  labelText: 'Username',
-                  hintText: 'Kullanıcı giriş adı',
+                decoration: InputDecoration(
+                  labelText: AppStrings.tr(context, 'username'),
                   border: OutlineInputBorder(),
                 ),
                 validator: UserValidator.validateUsername,
@@ -82,9 +82,8 @@ class _UserAddPageState extends State<UserAddPage> {
               const SizedBox(height: 16),
               TextFormField(
                 controller: _userTitleController,
-                decoration: const InputDecoration(
-                  labelText: 'UserTitle',
-                  hintText: 'Kullanıcı adı',
+                decoration: InputDecoration(
+                  labelText: AppStrings.tr(context, 'userTitle'),
                   border: OutlineInputBorder(),
                 ),
                 validator: UserValidator.validateUserTitle,
@@ -95,8 +94,7 @@ class _UserAddPageState extends State<UserAddPage> {
                 controller: _passwordController,
                 obscureText: _obscurePassword,
                 decoration: InputDecoration(
-                  labelText: 'Password',
-                  hintText: 'Kullanıcı şifresi',
+                  labelText: AppStrings.tr(context, 'password'),
                   border: const OutlineInputBorder(),
                   suffixIcon: IconButton(
                     icon: Icon(
@@ -117,7 +115,7 @@ class _UserAddPageState extends State<UserAddPage> {
               const SizedBox(height: 24),
               ElevatedButton(
                 onPressed: _submitForm,
-                child: const Text('ADD USER'),
+                child: Text(AppStrings.tr(context, 'addButton')),
               ),
             ],
           ),

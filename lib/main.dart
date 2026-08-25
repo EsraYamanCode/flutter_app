@@ -4,18 +4,15 @@ import 'package:flutter_deneme/data/repositories/user_repository.dart';
 import 'package:flutter_deneme/features/categories/category_provider.dart';
 import 'package:flutter_deneme/features/products/product_provider.dart';
 import 'package:flutter_deneme/features/users/user_provider.dart';
+import 'package:flutter_deneme/core/localization/locale_provider.dart';
 import 'package:provider/provider.dart';
 import 'features/auth/login_page.dart';
 import 'package:flutter/material.dart';
-// import 'l10n/app_localizations.dart';
 
 void main() {
   runApp(
     MultiProvider(
       providers: [
-        Provider<UserRepository>(create: (_) => UserRepository()),
-        Provider<CategoryRepository>(create: (_) => CategoryRepository()),
-        Provider<ProductRepository>(create: (_) => ProductRepository()),
         ChangeNotifierProvider(create: (_) => UserProvider(UserRepository())),
         ChangeNotifierProvider(
           create: (_) => CategoryProvider(CategoryRepository()),
@@ -23,6 +20,7 @@ void main() {
         ChangeNotifierProvider(
           create: (_) => ProductProvider(ProductRepository()),
         ),
+        ChangeNotifierProvider(create: (_) => LocaleProvider()),
       ],
       child: const MyApp(),
     ),
@@ -35,8 +33,6 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      localizationsDelegates: AppLocalizations.localizationsDelegates,
-      supportedLocales: AppLocalizations.supportedLocales,
       debugShowCheckedModeBanner: false,
       home: LoginPage(),
     );

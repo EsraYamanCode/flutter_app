@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_deneme/features/dashboard/dashboard_screen.dart';
-import 'package:flutter_deneme/features/users/admin_user_page.dart';
-import '../../data/repositories/user_repository.dart';
-import '../../data/models/user_model.dart';
+import 'package:flutter_deneme/features/users/user_provider.dart';
+import 'package:provider/provider.dart';
+import '../../core/localization/app_strings.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -14,7 +14,6 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
-  final UserRepository _userRepository = UserRepository();
   bool _isLoading = false;
 
   @override
@@ -25,31 +24,33 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   void _tryLogin() {
+    final provider = context.read<UserProvider>();
     final username = _usernameController.text.trim();
     final password = _passwordController.text;
 
     if (username.isEmpty || password.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please enter username and password.')),
+        SnackBar(
+          content: Text(AppStrings.tr(context, 'snack5', listen: false)),
+        ),
       );
       return;
     }
 
     setState(() => _isLoading = true);
 
-    final user = _userRepository.login(username, password);
+    final user = provider.login(username, password);
 
     setState(() => _isLoading = false);
 
     if (user != null) {
-      // Başarılı girişte bizi admin_user_page sayfasına yönlendirecek.
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (_) => const DashboardScreen()),
-      );
+      Navigator.of(
+        context,
+      ).push(MaterialPageRoute(builder: (_) => const DashboardScreen()));
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Failed: user didnt find or passwaord is wrong.'),
+        SnackBar(
+          content: Text(AppStrings.tr(context, 'snack4', listen: false)),
         ),
       );
     }
@@ -79,8 +80,8 @@ class _LoginPageState extends State<LoginPage> {
             TextField(
               //controller koy
               controller: _usernameController,
-              decoration: const InputDecoration(
-                labelText: "Username",
+              decoration: InputDecoration(
+                labelText: AppStrings.tr(context, 'username'),
                 border: OutlineInputBorder(),
                 hoverColor: Color.fromARGB(255, 215, 207, 191),
               ),
@@ -90,8 +91,8 @@ class _LoginPageState extends State<LoginPage> {
             TextField(
               //kontroller koy
               controller: _passwordController,
-              decoration: const InputDecoration(
-                labelText: "Password",
+              decoration: InputDecoration(
+                labelText: AppStrings.tr(context, 'password'),
                 border: OutlineInputBorder(),
               ),
               obscureText: true,

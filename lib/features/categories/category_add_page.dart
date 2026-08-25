@@ -3,6 +3,7 @@ import 'package:flutter_deneme/core/validators/category_validator.dart';
 import 'package:flutter_deneme/data/models/category_model.dart';
 import 'package:flutter_deneme/features/categories/category_provider.dart';
 import 'package:provider/provider.dart';
+import '../../core/localization/app_strings.dart';
 
 class CategoryAddPage extends StatefulWidget {
   const CategoryAddPage({super.key});
@@ -37,8 +38,10 @@ class _CategoryAddPage extends State<CategoryAddPage> {
 
     if (provider.isTitleExists(categoryTitle)) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('This title already taken, please try another title'),
+        SnackBar(
+          content: Text(
+            AppStrings.tr(context, 'snack3'),
+          ),
         ),
       );
       return;
@@ -57,7 +60,7 @@ class _CategoryAddPage extends State<CategoryAddPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('ADD CATEGORY')),
+      appBar: AppBar(title: Text(AppStrings.tr(context, 'addCategory'))),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Form(
@@ -68,7 +71,7 @@ class _CategoryAddPage extends State<CategoryAddPage> {
               TextFormField(
                 controller: _categoryTitleController,
                 decoration: const InputDecoration(
-                  labelText: 'CategoryTitle',
+                  labelText: 'Kategori Adı',
                   border: OutlineInputBorder(),
                 ),
                 validator: CategoryValidator.validateCategoryTitle,
@@ -77,7 +80,7 @@ class _CategoryAddPage extends State<CategoryAddPage> {
               TextFormField(
                 controller: _categoryDescriptionContoller,
                 decoration: const InputDecoration(
-                  labelText: 'CategoryDescription',
+                  labelText: 'Kategori Açıklaması',
                   border: OutlineInputBorder(),
                 ),
               ),
@@ -96,7 +99,7 @@ class _CategoryAddPage extends State<CategoryAddPage> {
               const SizedBox(height: 16),
               ElevatedButton(
                 onPressed: _submitForm,
-                child: const Text('ADD CATEGORY'),
+                child: Text(AppStrings.tr(context, 'addButton')),
               ),
             ],
           ),

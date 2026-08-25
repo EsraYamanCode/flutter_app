@@ -3,6 +3,7 @@ import 'package:flutter_deneme/data/models/product_model.dart';
 import 'package:flutter_deneme/features/categories/category_provider.dart';
 import 'package:flutter_deneme/features/products/product_provider.dart';
 import 'package:provider/provider.dart';
+import '../../core/localization/app_strings.dart';
 
 class ProductAddPage extends StatefulWidget {
   const ProductAddPage({super.key});
@@ -51,7 +52,10 @@ class _ProductAddPage extends State<ProductAddPage> {
     final categoryList = context.watch<CategoryProvider>().categories;
     List<DropdownMenuItem<String?>> dropdownItems = [];
     dropdownItems.add(
-      const DropdownMenuItem<String?>(value: null, child: Text('Kategori Yok')),
+      DropdownMenuItem<String?>(
+        value: null,
+        child: Text(AppStrings.tr(context, 'noCategory')),
+      ),
     );
 
     for (var cat in categoryList) {
@@ -66,7 +70,7 @@ class _ProductAddPage extends State<ProductAddPage> {
     }
 
     return Scaffold(
-      appBar: AppBar(title: const Text('ADD PRODUCT')),
+      appBar: AppBar(title: Text(AppStrings.tr(context, 'addProduct'))),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Form(
@@ -121,7 +125,7 @@ class _ProductAddPage extends State<ProductAddPage> {
               const SizedBox(height: 16),
               ElevatedButton(
                 onPressed: _submitForm,
-                child: const Text('ADD PRODUCT'),
+                child: Text(AppStrings.tr(context, 'add')),
               ),
             ],
           ),

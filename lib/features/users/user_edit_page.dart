@@ -3,6 +3,8 @@ import 'package:provider/provider.dart';
 import 'package:flutter_deneme/data/models/user_model.dart';
 import 'package:flutter_deneme/features/users/user_provider.dart';
 import '../../core/validators/user_validator.dart';
+import '../../core/localization/app_strings.dart';
+
 
 class UserEditPage extends StatefulWidget {
   final UserModel user; //gelecek olan user'ın tipi UserModel.
@@ -34,16 +36,16 @@ class _UserEditPageState extends State<UserEditPage> {
     );
 
     if (!isUnique) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('This username already taken.')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Bu isim kullanılmakta.')));
       return;
     }
 
     if (_passwordController.text.trim().isNotEmpty &&
         _passwordController.text.trim().length < 6) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('password at least 6 character.')),
+        const SnackBar(content: Text('Şİfre en az 6 karakter olmalı.')),
       );
       return;
     }
@@ -69,7 +71,7 @@ class _UserEditPageState extends State<UserEditPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('EDİT USER')),
+      appBar: AppBar(title: Text(AppStrings.tr(context, 'editUser'))),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Form(
@@ -96,7 +98,7 @@ class _UserEditPageState extends State<UserEditPage> {
               const SizedBox(height: 24),
               ElevatedButton(
                 onPressed: _submitForm,
-                child: const Text('EDİT USER'),
+                child: Text(AppStrings.tr(context, 'edit')),
               ),
             ],
           ),

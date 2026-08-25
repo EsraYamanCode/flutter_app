@@ -3,6 +3,7 @@ import 'package:flutter_deneme/core/validators/category_validator.dart';
 import 'package:flutter_deneme/data/models/category_model.dart';
 import 'package:flutter_deneme/features/categories/category_provider.dart';
 import 'package:provider/provider.dart';
+import '../../core/localization/app_strings.dart';
 
 class CategoryEditPage extends StatefulWidget {
   final CategoryModel category;
@@ -31,9 +32,9 @@ class _CategoryEditPageState extends State<CategoryEditPage> {
     );
 
     if (isUnique) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('This username already taken.')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(AppStrings.tr(context, 'snack3'))));
       return;
     }
 
@@ -57,7 +58,7 @@ class _CategoryEditPageState extends State<CategoryEditPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('EDİT USER')),
+      appBar: AppBar(title: Text(AppStrings.tr(context, 'editCategory'))),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Form(
@@ -77,7 +78,11 @@ class _CategoryEditPageState extends State<CategoryEditPage> {
               ),
               const SizedBox(height: 16),
               CheckboxListTile(
-                title: Text(_status ? 'aktif' : 'pasif'),
+                title: Text(
+                  _status
+                      ? AppStrings.tr(context, 'active')
+                      : AppStrings.tr(context, 'passive'),
+                ),
                 value: _status,
                 onChanged: (value) {
                   setState(() {
@@ -89,7 +94,7 @@ class _CategoryEditPageState extends State<CategoryEditPage> {
               const SizedBox(height: 24),
               ElevatedButton(
                 onPressed: _submitForm,
-                child: const Text('EDİT CATEGORY'),
+                child: Text(AppStrings.tr(context, 'edit')),
               ),
             ],
           ),

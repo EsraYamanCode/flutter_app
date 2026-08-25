@@ -4,6 +4,7 @@ import 'package:flutter_deneme/features/categories/category_provider.dart';
 import 'package:flutter_deneme/features/products/product_add_page.dart';
 import 'package:flutter_deneme/features/products/product_provider.dart';
 import 'package:provider/provider.dart';
+import '../../core/localization/app_strings.dart';
 
 class ProductManagement extends StatelessWidget {
   const ProductManagement({super.key});
@@ -35,147 +36,157 @@ class ProductManagement extends StatelessWidget {
         );
       }
     }
-    return Scaffold(
-      appBar: AppBar(title: const Center(child: Text("Product Management"))),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            Expanded(
-              child: Consumer2<ProductProvider, CategoryProvider>(
-                builder: (context, productProvider, categoryProvider, child) {
-                  return ListView.builder(
-                    padding: EdgeInsets.all(16),
-                    itemCount: productProvider.products.length,
-                    itemBuilder: (context, index) {
-                      final product = productProvider.products[index];
-                      final matchedCategory = _findCategory(
-                        product.productCategoryId,
-                        categoryProvider.categories,
-                      );
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Column(
+        children: [
+          Expanded(
+            child: Consumer2<ProductProvider, CategoryProvider>(
+              builder: (context, productProvider, categoryProvider, child) {
+                return ListView.builder(
+                  padding: EdgeInsets.all(16),
+                  itemCount: productProvider.products.length,
+                  itemBuilder: (context, index) {
+                    final product = productProvider.products[index];
+                    final matchedCategory = _findCategory(
+                      product.productCategoryId,
+                      categoryProvider.categories,
+                    );
 
-                      return Card(
-                        color: Color.fromARGB(255, 215, 207, 191),
-                        margin: const EdgeInsets.only(bottom: 6),
-                        child: ListTile(
-                          leading: CircleAvatar(
-                            child: Text("${index + 1}"),
-                            backgroundColor: Color.fromARGB(255, 193, 169, 139),
-                          ),
-                          title: Text(product.productTitle),
-                          subtitle: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              matchedCategory != null
-                                  ? Text(matchedCategory.categoryTitle)
-                                  : Row(
-                                      children: [
-                                        const Text(
-                                          'kategori yok',
-                                          style: TextStyle(color: Colors.red),
+                    return Card(
+                      color: Color.fromARGB(255, 215, 207, 191),
+                      margin: const EdgeInsets.only(bottom: 6),
+                      child: ListTile(
+                        leading: CircleAvatar(
+                          child: Text("${index + 1}"),
+                          backgroundColor: Color.fromARGB(255, 193, 169, 139),
+                        ),
+                        title: Text(product.productTitle),
+                        subtitle: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            matchedCategory != null
+                                ? Text(matchedCategory.categoryTitle)
+                                : Row(
+                                    children: [
+                                      Text(
+                                        AppStrings.tr(context, 'noCategory'),
+                                        style: TextStyle(color: Colors.red),
+                                      ),
+                                      const SizedBox(width: 10),
+                                      DropdownButton<String?>(
+                                        hint: Text(
+                                          AppStrings.tr(
+                                            context,
+                                            'assignCategory',
+                                          ),
                                         ),
-                                        const SizedBox(width: 10),
-                                        DropdownButton<String?>(
-                                          hint: const Text('kategori ata'),
-                                          items: dropdownItems,
-                                          onChanged: (selectedId) {
-                                            if (selectedId != null) {
-                                              productProvider.updateProduct(
-                                                product.copyWith(
-                                                  productCategoryId: selectedId,
-                                                ),
-                                              );
-                                            }
-                                          },
+                                        items: dropdownItems,
+                                        onChanged: (selectedId) {
+                                          if (selectedId != null) {
+                                            productProvider.updateProduct(
+                                              product.copyWith(
+                                                productCategoryId: selectedId,
+                                              ),
+                                            );
+                                          }
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                            Text(product.barcode),
+                          ],
+                        ),
+                        trailing: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            IconButton(
+                              icon: const Icon(
+                                Icons.edit,
+                                color: Color.fromARGB(255, 135, 114, 89),
+                              ),
+                              onPressed: () {
+                                showDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return AlertDialog(
+                                      title: Text(
+                                        AppStrings.tr(context, 'to_inform'),
+                                      ),
+                                      content: Text(
+                                        AppStrings.tr(context, 'description'),
+                                      ),
+                                      actions: [
+                                        TextButton(
+                                          onPressed: () =>
+                                              Navigator.pop(context),
+                                          child: Text(
+                                            AppStrings.tr(context, 'okey'),
+                                          ),
                                         ),
                                       ],
-                                    ),
-                              Text(product.barcode),
-                            ],
-                          ),
-                          trailing: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              IconButton(
-                                icon: const Icon(
-                                  Icons.edit,
-                                  color: Color.fromARGB(255, 135, 114, 89),
-                                ),
-                                onPressed: () {
-                                  showDialog(
-                                    context: context,
-                                    builder: (context) {
-                                      return AlertDialog(
-                                        title: const Text('Bilgilendirme'),
-                                        content: const Text(
-                                          'ürün düzenleme özelliği bu aşamada zorunlu kapsam dışındadır.',
-                                        ),
-                                        actions: [
-                                          TextButton(
-                                            onPressed: () =>
-                                                Navigator.pop(context),
-                                            child: const Text('tamam'),
-                                          ),
-                                        ],
-                                      );
-                                    },
-                                  );
-                                },
+                                    );
+                                  },
+                                );
+                              },
+                            ),
+                            IconButton(
+                              icon: const Icon(
+                                Icons.delete,
+                                color: Color.fromARGB(255, 135, 114, 89),
                               ),
-                              IconButton(
-                                icon: const Icon(
-                                  Icons.delete,
-                                  color: Color.fromARGB(255, 135, 114, 89),
-                                ),
-                                onPressed: () {
-                                  showDialog(
-                                    context: context,
-                                    builder: (context) {
-                                      return AlertDialog(
-                                        content: const Text(
-                                          'Are you sure delete this product?',
+                              onPressed: () {
+                                showDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return AlertDialog(
+                                      content: Text(
+                                        AppStrings.tr(context, 'delete'),
+                                      ),
+                                      actions: [
+                                        TextButton(
+                                          onPressed: () {
+                                            productProvider.deleteProduct(
+                                              product.productId,
+                                            );
+                                            Navigator.pop(context);
+                                          },
+                                          child: Text(
+                                            AppStrings.tr(context, 'yes'),
+                                          ),
                                         ),
-                                        actions: [
-                                          TextButton(
-                                            onPressed: () {
-                                              productProvider.deleteProduct(
-                                                product.productId,
-                                              );
-                                              Navigator.pop(context);
-                                            },
-                                            child: const Text('yes'),
+                                        TextButton(
+                                          onPressed: () =>
+                                              Navigator.pop(context),
+                                          child: Text(
+                                            AppStrings.tr(context, 'no'),
                                           ),
-                                          TextButton(
-                                            onPressed: () =>
-                                                Navigator.pop(context),
-                                            child: const Text('no'),
-                                          ),
-                                        ],
-                                      );
-                                    },
-                                  );
-                                },
-                              ),
-                            ],
-                          ),
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                );
+                              },
+                            ),
+                          ],
                         ),
-                      );
-                    },
-                  );
-                },
-              ),
-            ),
-            IconButton(
-              icon: const Icon(Icons.add, color: Colors.deepPurple),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => ProductAddPage()),
+                      ),
+                    );
+                  },
                 );
               },
             ),
-          ],
-        ),
+          ),
+          IconButton(
+            icon: const Icon(Icons.add, color: Colors.deepPurple),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => ProductAddPage()),
+              );
+            },
+          ),
+        ],
       ),
     );
   }
